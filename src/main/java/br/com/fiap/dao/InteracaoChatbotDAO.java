@@ -1,28 +1,29 @@
 package br.com.fiap.dao;
 
-import br.com.fiap.factory.ConnectionFactory;
 import br.com.fiap.model.InteracaoChatbot;
-
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApplicationScoped
 public class InteracaoChatbotDAO {
 
-    private Connection conexao;
+    @Inject
+    DataSource dataSource;
 
-    public InteracaoChatbotDAO() throws SQLException, ClassNotFoundException {
-        this.conexao = ConnectionFactory.getConnection();
-    }
+    public InteracaoChatbotDAO() {}
 
     // INSERT (Gravar a conversa)
     public void gravarInteracao(InteracaoChatbot interacao) throws SQLException {
         String sql = "INSERT INTO GS_INTERACOES_CHATBOT (INTERACAO_PERGUNTA, INTERACAO_RESPOSTA, INTERACAO_DATA, CHATBOT_ID, USUARIO_ID) VALUES (?, ?, ?, ?, ?)";
 
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (Connection conexao = dataSource.getConnection(); // NOVO
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setString(1, interacao.getPergunta());
             stmt.setString(2, interacao.getResposta());
-            // Converte LocalDateTime para Timestamp do SQL
             stmt.setTimestamp(3, Timestamp.valueOf(interacao.getData()));
             stmt.setLong(4, interacao.getChatbotId());
             stmt.setLong(5, interacao.getUsuarioId());
@@ -36,7 +37,8 @@ public class InteracaoChatbotDAO {
         List<InteracaoChatbot> historico = new ArrayList<>();
         String sql = "SELECT * FROM GS_INTERACOES_CHATBOT WHERE USUARIO_ID = ? ORDER BY INTERACAO_DATA DESC";
 
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (Connection conexao = dataSource.getConnection(); // NOVO
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setLong(1, usuarioId);
 
             try (ResultSet rs = stmt.executeQuery()) {
@@ -48,7 +50,6 @@ public class InteracaoChatbotDAO {
                     i.setData(rs.getTimestamp("INTERACAO_DATA").toLocalDateTime());
                     i.setChatbotId(rs.getLong("CHATBOT_ID"));
                     i.setUsuarioId(rs.getLong("USUARIO_ID"));
-
                     historico.add(i);
                 }
             }

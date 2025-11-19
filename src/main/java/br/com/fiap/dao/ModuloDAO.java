@@ -1,24 +1,27 @@
 package br.com.fiap.dao;
 
-import br.com.fiap.factory.ConnectionFactory;
 import br.com.fiap.model.Modulo;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ApplicationScoped
 public class ModuloDAO {
 
-    private Connection conexao;
+    @Inject
+    DataSource dataSource;
 
-    public ModuloDAO() throws SQLException, ClassNotFoundException {
-        this.conexao = ConnectionFactory.getConnection();
-    }
+    public ModuloDAO() {}
 
     public List<Modulo> listar() throws SQLException {
         List<Modulo> modulos = new ArrayList<>();
         String sql = "SELECT * FROM GS_MODULOS ORDER BY MODULO_ID ASC";
 
-        try (PreparedStatement stmt = conexao.prepareStatement(sql);
+        try (Connection conexao = dataSource.getConnection(); // NOVO
+             PreparedStatement stmt = conexao.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
