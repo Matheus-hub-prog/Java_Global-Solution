@@ -1,6 +1,8 @@
 package br.com.fiap.resource;
 
 import br.com.fiap.bo.ModuloBO;
+
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -8,17 +10,11 @@ import jakarta.ws.rs.core.Response;
 @Path("/modulos")
 public class ModuloResource {
 
-    private ModuloBO moduloBO;
+    @Inject // Injeta o ModuloBO
+    ModuloBO moduloBO;
 
-    public ModuloResource() {
-        try {
-            this.moduloBO = new ModuloBO();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    public ModuloResource() {}
 
-    // O Endpoint que retorna os módulos
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response listar() {

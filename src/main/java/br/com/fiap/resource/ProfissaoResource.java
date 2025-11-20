@@ -2,6 +2,7 @@ package br.com.fiap.resource;
 
 import br.com.fiap.bo.ProfissaoBO;
 
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -9,15 +10,10 @@ import jakarta.ws.rs.core.Response;
 @Path("/profissoes")
 public class ProfissaoResource {
 
-    private ProfissaoBO profissaoBO;
+    @Inject // Injeta o ProfissaoBO
+    ProfissaoBO profissaoBO;
 
-    public ProfissaoResource() {
-        try {
-            this.profissaoBO = new ProfissaoBO();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    public ProfissaoResource() {}
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
