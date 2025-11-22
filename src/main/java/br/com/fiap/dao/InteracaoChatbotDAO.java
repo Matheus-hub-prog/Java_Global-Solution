@@ -20,7 +20,7 @@ public class InteracaoChatbotDAO {
     public void gravarInteracao(InteracaoChatbot interacao) throws SQLException {
         String sql = "INSERT INTO GS_INTERACOES_CHATBOT (INTERACAO_PERGUNTA, INTERACAO_RESPOSTA, INTERACAO_DATA, CHATBOT_ID, USUARIO_ID) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection conexao = dataSource.getConnection(); // NOVO
+        try (Connection conexao = dataSource.getConnection();
              PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setString(1, interacao.getPergunta());
             stmt.setString(2, interacao.getResposta());
@@ -37,7 +37,7 @@ public class InteracaoChatbotDAO {
         List<InteracaoChatbot> historico = new ArrayList<>();
         String sql = "SELECT * FROM GS_INTERACOES_CHATBOT WHERE USUARIO_ID = ? ORDER BY INTERACAO_DATA DESC";
 
-        try (Connection conexao = dataSource.getConnection(); // NOVO
+        try (Connection conexao = dataSource.getConnection();
              PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setLong(1, usuarioId);
 
@@ -55,5 +55,16 @@ public class InteracaoChatbotDAO {
             }
         }
         return historico;
+    }
+
+    // NOVO MÉTODO: DELETAR TODOS OS FILHOS POR ID DE USUÁRIO
+    public void deletarPorUsuario(Long usuarioId) throws SQLException {
+        String sql = "DELETE FROM GS_INTERACOES_CHATBOT WHERE USUARIO_ID = ?";
+
+        try (Connection conexao = dataSource.getConnection();
+             PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setLong(1, usuarioId);
+            stmt.execute();
+        }
     }
 }

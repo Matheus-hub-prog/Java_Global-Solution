@@ -20,9 +20,7 @@ public class UsuarioDAO {
 
     public UsuarioDAO() {}
 
-    // ----------------------------------------------------------
     // C - CREATE (INSERIR)
-    // ----------------------------------------------------------
     public void inserir(Usuario usuario) throws SQLException {
         String sql = "INSERT INTO GS_USUARIOS (USUARIO_NOME, USUARIO_CPF, USUARIO_EMAIL, USUARIO_SENHA, USUARIO_PROGRESSO, PROFISSAO_ID) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -38,9 +36,7 @@ public class UsuarioDAO {
         }
     }
 
-    // ----------------------------------------------------------
     // R - READ (LISTAR)
-    // ----------------------------------------------------------
     public List<Usuario> listar() throws SQLException {
         List<Usuario> usuarios = new ArrayList<>();
         String sql = "SELECT * FROM GS_USUARIOS ORDER BY USUARIO_ID ASC";
@@ -64,9 +60,7 @@ public class UsuarioDAO {
         return usuarios;
     }
 
-    // ----------------------------------------------------------
     // U - UPDATE (ATUALIZAR)
-    // ----------------------------------------------------------
     public void atualizar(Usuario usuario) throws SQLException {
         String sql = "UPDATE GS_USUARIOS SET USUARIO_NOME=?, USUARIO_CPF=?, USUARIO_EMAIL=?, USUARIO_SENHA=?, USUARIO_PROGRESSO=?, PROFISSAO_ID=? WHERE USUARIO_ID=?";
 
@@ -83,9 +77,7 @@ public class UsuarioDAO {
         }
     }
 
-    // ----------------------------------------------------------
     // D - DELETE (DELETAR)
-    // ----------------------------------------------------------
     public void deletar(Long id) throws SQLException {
         String sql = "DELETE FROM GS_USUARIOS WHERE USUARIO_ID = ?";
 

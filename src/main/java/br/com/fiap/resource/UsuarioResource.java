@@ -18,9 +18,7 @@ public class UsuarioResource {
         // Construtor vazio é suficiente para o CDI
     }
 
-    // ----------------------------------------------------------
     // GET - LISTAR TODOS OS USUÁRIOS
-    // ----------------------------------------------------------
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response listar() {
@@ -31,9 +29,7 @@ public class UsuarioResource {
         }
     }
 
-    // ----------------------------------------------------------
     // POST - CADASTRAR NOVO USUÁRIO
-    // ----------------------------------------------------------
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response cadastrar(Usuario usuario) {
@@ -47,9 +43,7 @@ public class UsuarioResource {
         }
     }
 
-    // ----------------------------------------------------------
     // PUT - ATUALIZAR USUÁRIO
-    // ----------------------------------------------------------
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -63,9 +57,7 @@ public class UsuarioResource {
         }
     }
 
-    // ----------------------------------------------------------
     // DELETE - REMOVER USUÁRIO
-    // ----------------------------------------------------------
     @DELETE
     @Path("/{id}")
     public Response deletar(@PathParam("id") Long id) {
